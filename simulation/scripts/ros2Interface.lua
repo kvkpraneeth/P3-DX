@@ -27,6 +27,24 @@ function sysCall_init()
 
 end
 
+function getTransformStamped(objHandle,name,relTo,relToName)
+
+    t=simROS2.getSystemTime()
+    p=sim.getObjectPosition(objHandle,relTo)
+    o=sim.getObjectQuaternion(objHandle,relTo)
+    return {
+        header={
+            stamp=t,
+            frame_id=relToName
+        },
+        child_frame_id=name,
+        transform={
+            translation={x=p[1],y=p[2],z=p[3]},
+            rotation={x=o[1],y=o[2],z=o[3],w=o[4]}
+        }
+    }
+end
+
 function setLeftMotorSpeed(msg)
     sim.setJointTargetVelocity(leftMotor,msg.data)
 end
@@ -45,6 +63,6 @@ end
 function sysCall_actuation()    
     if simROS2 then
         simROS2.publish(simTimePub,{data=sim.getSimulationTime()})
+        simROS2.sendTransform(getTransformStamped(robotHandle,'P3-DX',-1,'world'))
     end
 end 
-

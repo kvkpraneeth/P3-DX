@@ -3,7 +3,6 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include <geometry_msgs/msg/detail/twist__struct.hpp>
-#include <nav_msgs/msg/detail/odometry__struct.hpp>
 #include <std_msgs/msg/detail/float32__struct.hpp>
 #include <string>
 #include "rclcpp/timer.hpp"
@@ -33,14 +32,10 @@ class differential_drive : public rclcpp::Node
     //Publications.
     private: rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr leftWheelPub;
              rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr rightWheelPub;
-             rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odometryPub;
 
     //Timer based Loops.
     private: std::shared_ptr<rclcpp::TimerBase> timerLoop;
-             std::chrono::milliseconds frequency{5};
-
-    //Dead Reckoning.
-    public: void __odometry(float vx, float vy, float vth);
+             std::chrono::milliseconds frequency{50};
 
 };
 
