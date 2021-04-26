@@ -6,7 +6,7 @@ Implemented Switching based Sliding Mode Controller. Reference Paper given in th
 
 Current Issues:
 
--> Controller is slow to react according to the given parameters, as a result the signal osicillates a lot. To be tuned.
+-> Controller is slow to react according to the given parameters, as a result the signal oscillates a lot. To be tuned.
 
 Directories:
 
