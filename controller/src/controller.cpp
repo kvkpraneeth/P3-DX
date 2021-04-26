@@ -1,4 +1,5 @@
 #include "controller/controller.h"
+#include <boost/math/constants/constants.hpp>
 
 differential_drive::differential_drive() : Node("DifferentialDrive")
 {
@@ -15,6 +16,9 @@ void differential_drive::__speedCommandCB(const geometry_msgs::msg::Twist::Share
 
     this->leftWheelSpeed.data = (2 * msg->linear.x - this->wheelSeparation * msg->angular.z)/(this->wheelDiameter);
     this->rightWheelSpeed.data = (2 * msg->linear.x + this->wheelSeparation * msg->angular.z)/(this->wheelDiameter);
+
+    this->leftWheelSpeed.data = this->leftWheelSpeed.data * sin(boost::math::float_constants::pi/180); 
+    this->rightWheelSpeed.data = this->rightWheelSpeed.data * sin(boost::math::float_constants::pi/180); 
 
 }
 

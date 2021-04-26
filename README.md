@@ -6,7 +6,7 @@ Implemented Switching based Sliding Mode Controller. Reference Paper given in th
 
 Current Issues:
 
--> Linear Control develops an offset over time and loses control if the desired angular velocity is zero.
+-> Controller is slow to react according to the given parameters, as a result the signal osicillates a lot. To be tuned.
 
 Directories:
 

@@ -21,10 +21,13 @@ class slidingModeControl : public rclcpp::Node
 
     //Crucial Topics.
     public: std::string commandSpeedTopic="cmd_vel";
+            std::string speedEstimateTopic="vel_ach";
+            std::string desiredSpeedTopic="des_vel";
 
     //Crucial Constants.
     public: float k1, k2;
-    private: std::chrono::milliseconds frequency{50};
+    private: std::chrono::milliseconds frequency{5};
+
     public: std::string robotName="P3-DX";
             std::string worldName="world";
 
@@ -32,6 +35,9 @@ class slidingModeControl : public rclcpp::Node
     public: geometry_msgs::msg::TransformStamped currentState;
             geometry_msgs::msg::Twist desiredSpeed;
             geometry_msgs::msg::Twist currentSpeed;
+            geometry_msgs::msg::Twist publishSpeed;
+            geometry_msgs::msg::TransformStamped previousState;
+            double xd,yd,thd;
 
     //Subscriptions.
     private: rclcpp::Subscription<geometry_msgs::msg::TransformStamped>::SharedPtr stateSub;
@@ -39,15 +45,20 @@ class slidingModeControl : public rclcpp::Node
     //CallBacks.
     public: void __stateCB(const geometry_msgs::msg::TransformStamped::SharedPtr msg);
             void __timerCB();
+            void __speedTimerCB();
 
     //Timers.
     private: std::shared_ptr<rclcpp::TimerBase> timer;
+             std::shared_ptr<rclcpp::TimerBase> speedTimer;
 
     //Publications.
     private: rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr speedPub;
+             rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr speedEstimatePub;
+             rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr desiredSpeedPub;
 
     //Time Values
     public: rclcpp::Time currentTime, lastTime;
+
 };
 
 #endif
