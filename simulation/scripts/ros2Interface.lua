@@ -1,8 +1,11 @@
 function sysCall_init() 
     
     robotHandle=sim.getObjectHandle(sim.handle_self)
+
     leftMotor=sim.getObjectHandle("Pioneer_p3dx_leftMotor")
+
     rightMotor=sim.getObjectHandle("Pioneer_p3dx_rightMotor")
+
 
     if simROS2 then
         
@@ -12,8 +15,10 @@ function sysCall_init()
         rightMotorTopicName='rightMotorSpeed'
         
         simTimeTopicName='simTime'
+        stateTopicName='pioneerState'
         
         simTimePub=simROS2.createPublisher('/'..simTimeTopicName, 'std_msgs/msg/Float32')
+        statePub=simROS2.createPublisher('/'..stateTopicName, 'geometry_msgs/msg/TransformStamped')
         
         leftMotorSub=simROS2.createSubscription('/'..leftMotorTopicName, 'std_msgs/msg/Float32', 'setLeftMotorSpeed')
         rightMotorSub=simROS2.createSubscription('/'..rightMotorTopicName, 'std_msgs/msg/Float32', 'setRightMotorSpeed')
@@ -53,6 +58,7 @@ function setRightMotorSpeed(msg)
     sim.setJointTargetVelocity(rightMotor,msg.data)
 end
 
+
 function sysCall_cleanup() 
     if simROS2 then
         simROS2.shutdownSubscription(leftMotorSub)
@@ -60,9 +66,12 @@ function sysCall_cleanup()
     end
 end 
 
+
 function sysCall_actuation()    
+
     if simROS2 then
         simROS2.publish(simTimePub,{data=sim.getSimulationTime()})
-        simROS2.sendTransform(getTransformStamped(robotHandle,'P3-DX',-1,'world'))
+        simROS2.publish(statePub, getTransformStamped(robotHandle,'P3-DX',-1,'world'))
     end
 end 
+
