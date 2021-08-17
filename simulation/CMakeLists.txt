@@ -16,14 +16,13 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 
-install(DIRECTORY scenes
+install(DIRECTORY scenes scripts
     DESTINATION share/${PROJECT_NAME}
 )
 
-install(DIRECTORY scripts
-    DESTINATION share/${PROJECT_NAME}
+install(PROGRAMS scripts/simlaunch.sh
+	DESTINATION lib/${PROJECT_NAME}
 )
-
 
 if(BUILD_TESTING)
 
