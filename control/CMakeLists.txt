@@ -16,18 +16,17 @@ include_directories(include)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(lqr REQUIRED)
 find_package(p3dxmsgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
 add_library(control_core SHARED src/control.cpp)
 ament_target_dependencies(control_core 
-							Eigen3 rclcpp lqr p3dxmsgs geometry_msgs)
+							Eigen3 rclcpp p3dxmsgs geometry_msgs)
 target_include_directories(control_core PUBLIC include)
 
 add_executable(controltest src/test.cpp)
 ament_target_dependencies(controltest 
-							Eigen3 rclcpp lqr p3dxmsgs geometry_msgs)
+							Eigen3 rclcpp p3dxmsgs geometry_msgs)
 target_include_directories(controltest PUBLIC include)
 target_link_libraries(controltest control_core)
 

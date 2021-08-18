@@ -1,7 +1,6 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#include "lqr/lqr.h"
 #include "rclcpp/rclcpp.hpp"
 #include <geometry_msgs/msg/detail/transform_stamped__struct.hpp>
 #include <rclcpp/publisher.hpp>
@@ -23,7 +22,7 @@ class TrajectoryTracking : public rclcpp::Node
 
 	public:
 		// Constructor
-		TrajectoryTracking(std::vector<double> Q_, std::vector<double> R_);
+		TrajectoryTracking();
 		
 		// Desired State Service Callback	
 		void getDesiredState(const State::Request::SharedPtr request, 
@@ -40,9 +39,6 @@ class TrajectoryTracking : public rclcpp::Node
 		const std::string desiredStateServiceTopic = "desiredState";
 	
 		rclcpp::Service<State>::SharedPtr desiredStateService;
-
-		// System Description
-		LinearStateSpace System;
 
 		// Current State
 		rclcpp::Subscription<TransformStamped>::SharedPtr currentStateSub;

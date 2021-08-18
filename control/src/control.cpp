@@ -2,7 +2,7 @@
 
 using namespace std;
 
-TrajectoryTracking::TrajectoryTracking(vector<double> Q_, vector<double> R_) 
+TrajectoryTracking::TrajectoryTracking() 
 			: Node("Controller") 
 {
 	// TODO: Find a good method to make this code look good.
@@ -16,13 +16,6 @@ TrajectoryTracking::TrajectoryTracking(vector<double> Q_, vector<double> R_)
 
 	leftMotorPub = create_publisher<Float32>(leftMotorTopic, 100);
 	rightMotorPub = create_publisher<Float32>(rightMotorTopic, 100);
-
-	System.A = Eigen::MatrixXd::Identity(3,3);
-	System.B = Eigen::MatrixXd::Identity(3,2);
-
-	lqr l(System, Q_, R_);	
-
-	cout << System.K << endl;
 
 	desiredState.x = 0;
 	desiredState.y = 0;
@@ -73,8 +66,6 @@ TrajectoryTracking::getCurrentState(const TransformStamped::SharedPtr msg)
 	cout << errorState << endl;
 
 	Eigen::MatrixXd controlInputs = Eigen::MatrixXd(2,1);
-
-	controlInputs = - System.K * errorState;
 
 	cout << controlInputs << endl;
 
