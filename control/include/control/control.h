@@ -10,7 +10,7 @@
 #include "p3dxmsgs/srv/state.hpp"
 #include "rclcpp/timer.hpp"
 #include "std_msgs/msg/float32.h"
-
+#include "eigen3/Eigen/Core"
 #define pi 3.14159
 
 typedef p3dxmsgs::srv::State State;
